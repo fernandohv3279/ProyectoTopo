@@ -1,0 +1,266 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{url}
+\renewcommand*{\proofname}{Prueba}
+\renewcommand\refname{Referencias}
+
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{lemma}[theorem]{Lema}
+\theoremstyle{definition}
+\newtheorem*{definition}{Definición}
+\newtheorem*{remark}{Observación}
+
+\newcommand{\suc}[4][\infty]{\{{#2_#3}\}_{#3=#4}^#1}
+\newcommand{\R}{\mathbb{R}}
+
+
+\title{Teorema de categoría de Baire y algunas aplicaciones en análisis}
+\author{Fernando Herrera Valverde}
+\date{I semestre 2019}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+
+El teorema de Categoría de Baire es una herramienta importante usada en topología general y análisis. Fue probado en 1899 por René-Louis Baire. Una de las características importantes de esta herramienta es que permite mostrar existencia de elementos con propiedades peculiares sin tener que construirlos. Por un lado esto es una desventaja pero por otro lado puede simplificar mucho las pruebas de existencia.\\
+En este trabajo se mostrarán dos aplicaciones del teorema para mostrar existencia de funciones con propiedades que no son intuitivas. La primera: que existen funciones continuas en todo punto, derivables en ninguno. La segunda: que existen funciones derivables monótonas en ninguna parte.
+Como muestra de lo poderosa que es esta herramienta: según \cite{jones97} en los años 1800's no se sabía si estas últimas funciones existían, en 1887 Köpcke construyó un ejemplo, sin embargo la construcción era muy complicada; posteriormente otros matemáticos, incluido él mismo, simplificaron la construcción hasta que las pruebas más cortas alcanzaron alrededor de 10 páginas. En 1976 Clifford Weil da una prueba de la existencia de estas funciones (la que se presenta aquí de hecho) usando el teorema de categoría de Baire, en menos de dos páginas, ver \cite{weil76}.\\
+En este documento se probará el teorema de categoría de Baire para espacios métricos completos y su versión topológica para espacios T2 localmente compactos, pruebas que fueron tomadas de \cite{munkres00}. Luego se mostrarán dos aplicaciones, se definirá el concepto de filtro y se explicará porque el teorema de categoría de Baire no solo prueba existencia; si no que prueba que en cierto sentido la mayoría de elementos de un espacio cumple con la propiedades que se buscaban. 
+
+
+
+\section{Teorema de categoría de Baire}
+\begin{theorem}[Categoría de Baire, versión de espacios métricos]
+Sea X un espacio métrico completo y $\{U_n\}_{n=1}^2$ una familia de abiertos densos. Entonces $\cap U_n$ es densa.
+\end{theorem}
+\begin{proof}
+Sean $\{U_n\}_{n=1}^\infty$ abiertos densos. Basta mostrar que cualquier abierto $W$ contiene un elemento $x$ que está en cada $U_i$.\\
+Como $U_1$ es denso entonces existe $x_1 \in U_1\cap W$. Además podemos encontrar $r_1$ tal que:\\
+$$
+\overline{B(x_1,r_1)}\in U_1\cap W.
+$$
+Continuando de esta manera es posible construir dos sucesiones, una de elementos $\suc{x}{n}{1}$ y otra de números $\suc{r}{n}{1}$, tales que:\\
+$$
+0<r_n<\frac{1}{n}, \textit{ y además: } \overline{B(x_n,r_n)} \in B(x_{n-1},r_{n-1})\cap U_n
+$$
+Luego tenemos que la sucesión es de Cauchy, entonces converge (llamemos al límite $x$). Finalmente note que $x\in \overline{B(x_n,r_n)}$ para todo $n$, entonces $x\in U_n$ para todo $n$ y como $x\in W$ se concluye el resultado.
+\end{proof}
+
+\begin{corollary}\label{coroBaireGDelta}
+En un espacio métrico la intersección numerable de $G_\delta$'s densos es un $G_\delta$ denso.
+\end{corollary}
+
+\begin{proof}
+Esto es consecuencia directa del teorema anterior y de que la unión numerable de conjuntos numerables es numerable. 
+\end{proof}
+
+Este resultado se puede generalizar a espacios topológicos homeomorfos a un subconjunto abierto de un espacio pseudométrico completo, sin embargo para los fines de este documento la versión antes dada es suficiente. A continuación se enuncia y demuestra la versión topológica del teorema de categoría de Baire. Primero un lema.
+
+\begin{lemma} \label{lemaBaire}
+Sea $X$ un espacio Hausdorff localmente compacto; sea $x\in X$. Dado un vecindario abierto $U$ de $x$ existe un vecindario abierto $V$ de $x$ tal que $\overline{V}$ es compacto y $\overline{V} \subset U$.
+\end{lemma}
+\begin{proof}
+Como $X$ es localmente compacto y Hausdorff entonces es regular. Sea $W$ un vecindario abierto de $x$ tal que $\overline{W}$ es compacto. Considere el cerrado $(W\cap U)^c$. Como $X$ es regular existen abiertos $V$ y $O$ disjuntos tal que $x\in V$ y $(W\cap U)^c\subset O$. Note que $V\subset O^c$ por ser disjuntos, luego $\overline{V}\subset O^c$ pues $O^c$ es cerrado. Entonces concluimos que: $x\in V\subset \overline{V}\subset W\cap U$. Note que como en particular $\overline{V}\subset W$ entonces $\overline{V}$ es compacto. Además $\overline{V}\subset U$.
+\end{proof}
+\begin{theorem}[Categoría de Baire, versión topológica]
+Sea $X$ un espacio $T2$ localmente compacto y $\{U_n\}_{n=1}^\infty$ una familia de abiertos densos. Entonces $\cap U_n$ es densa.
+\end{theorem}
+\begin{proof} 
+Sea $W\subset_{ab} X$ no vacío. Basta mostrar que $W\cap(\cap U_n)\neq \emptyset$.\\
+Note que $U_1\cap W \neq \emptyset$ pues $U_1$ es denso. Por el lema \ref{lemaBaire} existe $V_1$ abierto no vacío tal que $\overline{V_1}\subset U_1\cap W$
+y $\overline{V_1}$ es compacto.\\
+Aplicando el mismo argumento podemos encontrar $V_2$ abierto no vacío al que $\overline{V_2}\subset V_1\cap U_2$ con $\overline{V_2}$ compacto. Inductivamente podemos construir $\{V_n\}$ una sucesión de abiertos no vacíos cuya clausura es compacta y donde $\overline{V_{n+1}}\subset \overline{V_{n}}$. Por el teorema de intersección de Cantor $\cap \overline{V_n}\neq \emptyset$.\\
+Finalmente vea que:
+$\overline{V_n}\subset \overline{V_1}\subset W$ para todo $n$.\\
+Además $\overline{V_n}\subset U_n$ para todo $n$.\\
+Entonces $\cap \overline{V_n} \subset W\cap (\cap U_n)$.
+\end{proof}
+En este documento se utilizará la versión de espacios métricos. Vale la pena notar que hay una forma equivalente del teorema de categoría de Baire para espacios métricos que dice lo siguiente:\\
+Sea X un espacio métrico completo. Si $\suc{A}{i}{1}$ es una familia de cerrados con interior vacío entonces $\cup A_i$ tiene interior vacío. En muchas aplicaciones esta forma del teorema es la que se utiliza. 
+
+
+\section{Aplicación 1: Existen funciones continuas con derivada finita en ningún punto}\label{ap1}
+
+Para esta sección se utilizaron las sugerencias de un ejercicio tomado de \cite{cambronero505}.\\
+Sea $E=C[0,1]$, con la distancia $d_\infty$. Entonces $(C[0,1],d_\infty)$ es un espacio métrico completo.\\
+Sea $D=\{f\in E: \text{f tiene derivada por la derecha finita en algún punto}\}$.\\
+Queremos demostrar que $D^c\neq \emptyset$. Vamos a mostrar algo más fuerte; que $D$ tiene interior vacío.\\
+Para esto considere el siguiente conjunto:\\
+$$
+	F_n=\{f\in E: \exists a\in [0,1-1/n] \text{ con } |f(a+h)-f(a)|\leq nh \text{ para } 0<h<1/n\}.
+$$
+
+\begin{lemma}
+$F_n$ es cerrado para todo $n$.
+\end{lemma}
+\begin{proof}
+Sea $\suc{f}{k}{1}\subset F_n$ tal que $f_k\rightarrow f$ y sean $a_k$ sus correspondientes puntos (los de la definición de $F_n$). Queremos mostrar que $f\in F_n$, i.e $\exists a$ tal que $|f(a+h)-f(a)|\leq nh$ para $0<h<1/n$.\\
+Tome cualquier subsucesión convergente del conjunto de los $a_k$ (existe por Bolzano-Weierstrass), llamémosla $a_{k_l}$, el límite de esta sucesión será nuestro $a$. Note que:
+$$
+|f_{k_l}(a_{k_l}+h)-f_{k_l}(a_{k_l})|\leq nh\quad \forall l
+$$
+Entonces si probamos que:
+$$
+\lim_{l\rightarrow\infty}(f_{k_l}(a_{k_l}+h)-f_{k_l}(a_{k_l}))=f(a+h)-f(a)
+$$
+concluye la demostración. En efecto, como:\\
+\begin{align*}
+|f_{k_l}(a_{k_l}+h)-f_{k_l}(a_{k_l})-f(a+h)+f(a)|&\leq |f_{k_l}(a_{k_l}+h)-f(a_{k_l}+h)|+\\
+&\quad |f(a_{k_l}+h)-f(a+h)|+\\
+&\quad|f_{k_l}(a_{k_l})-f(a_{k_l})|+\\
+&\quad |f(a_{k_l})-f(a)|
+\end{align*}
+y recordando que la convergencia de estas funciones es uniforme y que $f$ es continua, podemos tomar límite cuando $l\rightarrow\infty$ para obtener el resultado. 
+\end{proof}
+\begin{lemma}
+$F_n$ tiene interior vacío para todo $n$.
+\end{lemma}
+\begin{proof}
+Vamos a mostrar que $F_n^c$ es denso. Por Stone-Weierstrass basta ver que un polinomio puede aproximarse por funciones en $F_n^c$. Sea $f$ un polinomio en $E$, sea $d$ el máximo de la derivada de $f$ en $E$ y sea $\varepsilon>0$, basta mostrar que existe una función $g$ en $F_n^c$ tal que:
+\begin{equation}\label{eqFnintVac}
+f\leq g\leq f+\frac{\varepsilon}{2}.
+\end{equation}
+Para ver una posible $g$ divida $E$ en $k$ intervalos de longitud $\frac{1}{k}$. Llame a estos intervalos $[a_i,b_i]$ con $i=1,...,k$ (note que $b_i=a_{i+1}$ para $i=1,...,k-1$).\\
+En los intervalos impares una los puntos $(a_i,f(a_i))$ y $(b_i,f(b_i)+\frac{\varepsilon}{2})$ y en los intervalos pares una los puntos $(a_i,f(a_i)+\frac{\varepsilon}{2})$ y $(b_i,f(b_i))$, esto nos da una función lineal a trozos cuya derivada por la derecha en el intervalo $[a_i,b_i]$ tiene valor absoluto $\left|\frac{f(b_i)+\frac{\varepsilon}{2}-f(a_i)}{1/k}\right|$    
+o bien $\left|\frac{f(b_i)-f(a_i)-\frac{\varepsilon}{2}}{1/k}\right|$.    \\
+Note que esto nos dice que podemos hacer que la derivada por la derecha de $g$ tenga valor absoluto tan grande como queramos (tomando $k$ suficientemente grande), entonces debe existir un $K$ tal que (\ref{eqFnintVac}) se cumpla, de lo contrario aplicando el teorema del valor medio obtendríamos que $d=\infty$, lo cual es imposible por tratarse de un polinomio, además podemos tomar $K$ de forma que $g\in F_n^c$ (de nuevo tomando $K$ suficientemente grande). 
+
+
+
+
+\end{proof}
+
+
+Entonces por teorema de categoría de Baire se concluye que $\cup F_n$ tiene interior vacío.
+Recordemos que todo conjunto que esté contenido en un conjunto de interior vacío también tiene interior vacío. Note que claramente $D\subset \cup F_n$, entonces $D$ tiene interior vacío.
+
+
+
+\section{Aplicación 2: Existen funciones derivables\newline monótonas en ninguna parte}\label{ap2}
+
+Lo que se prueba en esta sección viene principalmente de \cite{weil76}.
+
+Considere el siguiente conjunto:
+$$
+D=\{f:\R \rightarrow \R: \text{ f es acotada y tiene antiderivada en } \R \}.
+$$
+En $D$ podemos definir la métrica de convergencia uniforme:
+$$
+d(f,g)=\sup_{x\in \R} |f(x)-g(x)|.
+$$
+Por un resultado estándar de análisis $(D,d)$ es un espacio métrico completo. Para ver esta prueba puede consultar \cite{mathOnContUnifDer}. \\
+Ahora considere el conjunto:
+$$
+E=\{f \in D:\text{ existe un intervalo donde f no cambia de signo}\}.
+$$
+Queremos ver que $E^c\neq \emptyset$. Esto puede ser complicado entonces nos vamos a restringir a un subconjunto de $D$ donde es más fácil trabajar; este conjunto es $D_0$ y se define así:\\
+$$
+D_0=\{f \in D: \{x: f(x)=0\} \text{ es denso en } \R \}.
+$$
+Entonces es mejor definir $E$ así:
+$$
+E=\{f \in D_0:\text{ existe un intervalo donde f no cambia de signo}\}.
+$$
+
+\begin{lemma}
+$D_0$ con la métrica de $D$ es completo. 
+\end{lemma}
+\begin{proof}
+Basta ver que es cerrado. Sea $\suc{f}{k}{1}\subset D_0$ con $f_k\rightarrow f$. Usando el hecho de que el conjunto de ceros de una derivada es un $G_\delta$ (la prueba de esto puede encontrarse en \cite{derivadaGDelta}) tenemos que si $Z_k=\{x:f_k(x)=0\}$, entonces $Z=\cap Z_k \subset \{x:f(x)=0\}$, por el corolario \ref{coroBaireGDelta} $Z$ es denso, entonces $f\in D_0$.
+\end{proof}
+Note que este mismo argumento sirve para probar que $D_0$ es cerrado bajo suma. En este punto tiene sentido preguntarse si $D_0$ tiene funciones además de la función $0$. La respuesta a esta pregunta es sí y fue contestada por Dimitrie Pompeiu en 1907, de hecho estas funciones se conocen como derivadas de Pompeiu. Entonces $D_0$ es un espacio métrico completo, cerrado bajo suma y no es trivial. Estos puntos serán útiles más adelante.\\
+Recordemos que buscamos probar que $E^c\neq\emptyset$.\\
+Para esto definimos lo siguiente:\\ \\
+$\{I_n\}$ un ordenamiento de los intervalos cerrados de $\R$ que tienen puntos extremos racionales.\\
+$E_n=\{f\in D_0: f(x)\geq0 \forall x\in I_n \}$.\\
+$F_n=\{f\in D_0: f(x)\leq0 \forall x\in I_n \}$.
+
+\begin{lemma}
+$E_n$ y $F_n$ son cerrados con interior vacío en $D_0$. 
+\end{lemma}
+\begin{proof}
+Se puede probar solo para $E_n$ pues el argumento para $F_n$ es análogo.\\
+El hecho de que $E_n$ es cerrado es inmediato. Para probar que $E_n$ no contiene abiertos tome $f\in D_0$ y $\varepsilon >0$, luego existe $x\in I_n$ tal que $f(x)=0$; como vimos que existen funciones no nulas en $D_0$ entonces podemos conseguir $h\in D_0$ tal que $h(x)<0$ (podemos desplazar y reflejar hasta lograr esto) y multiplicando por $\varepsilon/2$ podemos hacer que $\sup_{x\in \R}  |h(x)|<\varepsilon$.
+Ahora defina $g=f+h$, así $g\in D_0$, $d(f,g)<\varepsilon$ y $g\not\in I_n$ pues $g(x)<0$.\\
+En conclusión $E_n$ no contiene abiertos.
+
+
+  
+\end{proof}
+\begin{theorem}
+$E$ tiene interior vacío.
+\end{theorem}
+\begin{proof}
+Basta notar que $E=\bigcup (E_n\cup F_n)$ y por los lemas anteriores podemos aplicar teorema de categoría de Baire para concluir que $E$ tiene interior vacío.
+\end{proof}
+
+
+
+
+\section{Filtros}
+Dado un conjunto, existe una noción de "mayoría" que podemos definir, bajo la cual el teorema de categoría de Baire no solo demuestra existencia, si no que en cierto sentido prueba que la mayoría de elementos del espacio cumplen la propiedad que se estaba buscando. Esto es interesante porque originalmente estamos intentando probar que existen elementos que satisfacen una propiedad $P$ (es decir que no son tan fáciles de encontrar) y terminamos viendo que tales elementos no solo existen, si no que son (de alguna manera) la mayoría. El concepto del que se habla es el de filtro, que a continuación se define.
+
+\begin{definition}
+Sea $S$ un conjunto. Decimos que $\mathcal{F} \subset P(S)$ es un filtro sobre $S$ si cumple lo siguiente:
+\begin{enumerate}
+    \item $\mathcal{F}\neq\emptyset$.
+    \item $(A\in\mathcal{F} \land B\in \mathcal{F})\implies A\cap B\in \mathcal{F}$.
+    \item $(A\subset B \land A\in\mathcal{F}) \implies B\in \mathcal{F}$.
+    \item $\emptyset \not\in \mathcal{F}$.
+\end{enumerate}
+\end{definition}
+\begin{definition}
+Un conjunto es denso en ninguna parte si el interior de su clausura es denso.
+\end{definition}
+\begin{definition}
+Un conjunto magro (o de primera categoría) en $S$ es aquel que puede verse como unión numerable de densos en ninguna parte. Un conjunto es comagro si su complemento es magro.
+\end{definition}
+\begin{definition}
+Decimos que la mayoría de elementos de $S$ cumple la propiedad $P$ si el conjunto $A:=\{s\in S: \text{ s cumple la propiedad } P\}$ es elemento de algún filtro sobre $S$. 
+\end{definition}
+
+Sea $\mathcal{F}$ la familia de conjuntos comagros en $S$ un espacio métrico o un espacio topológico Hausdorff localmente compacto. Veamos que $\mathcal{F}$ es un filtro.\\
+
+\begin{enumerate}
+\item Tome el complemento de un singletón.
+\item La unión de dos conjuntos numerables es numerable.
+\item Todo subconjunto de un conjunto denso en ninguna parte es denso en ninguna parte, entonces todo subconjunto de un conjunto magro es magro.
+\item Si el espacio es magro, por teorema de categoría de Baire tendría interior vacío, es decir sería el espacio trivial.
+\end{enumerate}
+
+Entonces vemos que en efecto $\mathcal{F}$ es un filtro. En las secciones \ref{ap1} y \ref{ap2}  se probó que los conjuntos de las funciones con las propiedades que buscábamos tienen complemento magro (son comagros) entonces podemos decir que la mayoría de funciones continuas en $[0,1]$ son derivables en ningún punto y que la mayoría de funciones acotadas con antiderivada son monótonas en ninguna parte.
+
+
+
+
+
+\section{Conclusión}
+
+El teorema de categoría de Baire es una herramienta muy poderosa, en este trabajo se utilizó para dos aplicaciones en análisis, otra de ella de una naturaleza parecida es el hecho de que existen funciones de clase $C^\infty$ que son analíticas en ningún punto, resultado probado por Morgenstern. Otras aplicaciones del teorema es en análisis funcional para probar el teorema de la aplicación abierta, el teorema del grafo cerrado y el principio de acotación uniforme. \\
+Algo interesante es que el teorema de categoría de Baire es equivalente al axioma de opciones dependientes, que es una forma débil del axioma de elección.\\
+Lo que me parece más llamativo es que el teorema de categoría de Baire no solo prueba existencia de elementos muy difíciles de encontrar, si no que además prueba que estos elementos "extraños" para nuestra intuición son realmente los más "comunes". Refuerza la idea de que aunque siempre es bueno ver el lado intuitivo de las cosas hay que ser muy cuidadosos con la rigurosidad pues muchas veces la intuición falla.  
+
+
+
+
+
+
+
+
+
+
+\bibliography{bibl}
+
+\bibliographystyle{amsplain}
+
+\end{document}
